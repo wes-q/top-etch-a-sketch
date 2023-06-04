@@ -93,4 +93,53 @@ body {
 .sidebar {
     background-color: dodgerblue;
     width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
 }
+
+.sidebar-btn {
+    color: #F9FAF8;
+    border-radius: 8px;
+    padding: 6px 18px;
+    width: 140px;
+    font-size: 18px;
+    border-style: solid;
+    border-color: white;
+    background: transparent;
+    /* margin-left: 100px; */
+}
+
+/* Start of copied style */
+.select-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .select-button:focus {
+    outline: none;
+    box-shadow: 0 0 4px #999;
+  }
+  
+  .select-button option {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .select-button option:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .select-button.rainbow {
+    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    color: #fff;
+  }
+  
