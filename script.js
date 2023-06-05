@@ -1,14 +1,41 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function() {
-    addGrid(16, 16, 0);
+    setDefaultSizeColor();
+    setColorButton();
+    addGrid();
     document.querySelector('#btn-reset').addEventListener('click', () => { refreshPage() });
     document.querySelector('#btn-squares').addEventListener('click', () => { setSquares() });
     setSelectButtonEventListener();
 });
 
 
-function addGrid(rows, columns, color) {
+function setDefaultSizeColor () {
+    // Set default values for new user
+    if (!localStorage.getItem("totalSquares")) {
+        localStorage.setItem("totalSquares", 8);
+    };
+    if (!localStorage.getItem("color")) {
+        localStorage.setItem("color", "grayscale");
+    }
+}
+
+
+function setColorButton() {
+    const color = localStorage.getItem("color"); 
+    if (color === "rainbow") {
+        colorModeSelect.classList.add("rainbow");
+    } else if (color === "grayscale") {
+        colorModeSelect.classList.remove("rainbow");
+    }
+}   
+
+
+function addGrid() {
+    const rows = localStorage.getItem("totalSquares");
+    const columns = rows; // For now the grid is always set to be a square 
+    const color = localStorage.getItem("color");
+
     var gridBox = document.querySelector('.grid-box');
 
     for (var i = 0; i < rows; i++) {
@@ -20,13 +47,15 @@ function addGrid(rows, columns, color) {
         cell.className = 'cell';
         cell.addEventListener('mouseover', event => {
             
-            if (color === 0) {
+            if (color === 'grayscale') {
                 event.target.style.backgroundColor = "gray";
-            } else if (color === 1) {
+            } else if (color === 'rainbow') {
                 event.target.style.backgroundColor = generateRandomColor();
+            } else {
+                alert("color did not match any");
             }
-
         });
+
     gridRow.appendChild(cell);
   }
   gridBox.appendChild(gridRow);
@@ -43,15 +72,16 @@ function removeGrid() {
 
 function refreshPage() {
     removeGrid();
-    addGrid(16, 16);
+    addGrid();
 }
 
 
 function setSquares() {
     const answer = parseInt(prompt("Sketch with how many squares?",0));
-    removeGrid();
-    addGrid(answer, answer);
+    localStorage.setItem("totalSquares", answer);
+    refreshPage();
 }
+
 
 function generateRandomColor() {
     // Generate random values for red, green, and blue components
@@ -61,25 +91,14 @@ function generateRandomColor() {
   
     // Create the RGB color string
     var color = "rgb(" + red + ", " + green + ", " + blue + ")";
-  
     return color;
 }
 
 function setSelectButtonEventListener() {
-    
-    var colorModeSelect = document.getElementById("colorModeSelect");
-
-    colorModeSelect.addEventListener("change", function() {
-      var selectedValue = colorModeSelect.value;
-      
-      if (selectedValue === "rainbow") {
-        colorModeSelect.classList.add("rainbow");
+    document.getElementById("colorModeSelect").addEventListener("change", event => {
+        localStorage.setItem("color", event.target.value);
+        setColorButton();
         removeGrid();
-        addGrid(16, 16, 1);
-      } else {
-        colorModeSelect.classList.remove("rainbow");
-        removeGrid();
-        addGrid(16, 16, 0);
-      }
+        addGrid();
     });    
 }
