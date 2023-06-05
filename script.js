@@ -22,11 +22,19 @@ function setDefaultSizeColor () {
 
 
 function setColorButton() {
+    // Set the colorModeSelect initial value based on local storage
     const color = localStorage.getItem("color"); 
+    const colorModeSelect = document.getElementById("colorModeSelect")
+    
     if (color === "rainbow") {
         colorModeSelect.classList.add("rainbow");
-    } else {
+        colorModeSelect.value = "rainbow";
+    } else if (color === "grayscale") {
         colorModeSelect.classList.remove("rainbow");
+        colorModeSelect.value = "grayscale";
+    } else if (color === "black") {
+        colorModeSelect.classList.remove("rainbow");
+        colorModeSelect.value = "black";
     }
 }   
 
@@ -80,7 +88,7 @@ function refreshPage() {
 
 
 function setSquares() {
-    const answer = parseInt(prompt("Sketch with how many squares?",0));
+    const answer = promptMax100("Grid x by x?",0);
     localStorage.setItem("totalSquares", answer);
     refreshPage();
 }
@@ -106,6 +114,7 @@ function setSelectButtonEventListener() {
     });    
 }
 
+
 function rgbsToValues(rgbString) {
 
     // Remove the "rgb(" and ")" from the string
@@ -126,3 +135,26 @@ function rgbsToValues(rgbString) {
 
     return [r, g, b];
 }
+
+function promptMax100() {
+    var input;
+    
+    while (true) {
+      input = prompt("Enter a number (maximum 100):");
+      
+      if (input === null) {
+        // User clicked Cancel or closed the prompt dialog
+        return null; // Return null to indicate cancellation
+      }
+      
+      var number = parseInt(input);
+      
+      if (!isNaN(number) && number <= 100) {
+        // Valid input within the range
+        return number;
+      }
+      
+      alert("Invalid input! Please enter a number less than or equal to 100.");
+    }
+  }
+  

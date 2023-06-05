@@ -104,11 +104,12 @@ body {
     color: #F9FAF8;
     border-radius: 8px;
     padding: 6px 18px;
-    width: 140px;
+    width: 150px;
+    height: 80px;
     font-size: 18px;
-    border-style: solid;
-    border-color: white;
+    border: white solid;
     background: transparent;
+    text-align: center;
     /* margin-left: 100px; */
 }
 
@@ -140,7 +141,7 @@ body {
     background-color: #f2f2f2;
   }
   
-  .select-button.rainbow {
+  .rainbow {
     background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
     color: hsl(0, 0%, 100%);
   }
