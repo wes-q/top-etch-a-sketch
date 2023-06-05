@@ -16,7 +16,7 @@ function setDefaultSizeColor () {
         localStorage.setItem("totalSquares", 8);
     };
     if (!localStorage.getItem("color")) {
-        localStorage.setItem("color", "grayscale");
+        localStorage.setItem("color", "black");
     }
 }
 
@@ -25,7 +25,7 @@ function setColorButton() {
     const color = localStorage.getItem("color"); 
     if (color === "rainbow") {
         colorModeSelect.classList.add("rainbow");
-    } else if (color === "grayscale") {
+    } else {
         colorModeSelect.classList.remove("rainbow");
     }
 }   
@@ -39,28 +39,31 @@ function addGrid() {
     var gridBox = document.querySelector('.grid-box');
 
     for (var i = 0; i < rows; i++) {
-    var gridRow = document.createElement('div');
-    gridRow.className = 'grid-row';
+        var gridRow = document.createElement('div');
+        gridRow.className = 'grid-row';
 
-    for (var j = 0; j < columns; j++) {
-        var cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.addEventListener('mouseover', event => {
-            
-            if (color === 'grayscale') {
-                event.target.style.backgroundColor = "gray";
-            } else if (color === 'rainbow') {
-                event.target.style.backgroundColor = generateRandomColor();
-            } else {
-                alert("color did not match any");
-            }
-        });
+        for (var j = 0; j < columns; j++) {
+            var cell = document.createElement('div');
+            cell.style.background = 'hsl(0, 0%, 100%)'; // Set all cells initially to white.
+            cell.className = 'cell';
+            cell.addEventListener('mouseover', event => {
+                
+                if (color === 'black') {
+                    event.target.style.backgroundColor = "black";
+                } else if (color === 'rainbow') {
+                    event.target.style.backgroundColor = generateRandomColor();
+                } else if (color === 'grayscale') {
+                    const color = event.target.style.backgroundColor;
+                    const rgbArr = rgbsToValues(color);
+                    event.target.style.backgroundColor = `rgb( ${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]} )`
+                }
+            });
+            gridRow.appendChild(cell);
+        }
+        gridBox.appendChild(gridRow);
+    }
+}
 
-    gridRow.appendChild(cell);
-  }
-  gridBox.appendChild(gridRow);
-}
-}
 
 function removeGrid() {
     var gridBox = document.querySelector('.grid-box');
@@ -101,4 +104,25 @@ function setSelectButtonEventListener() {
         removeGrid();
         addGrid();
     });    
+}
+
+function rgbsToValues(rgbString) {
+
+    // Remove the "rgb(" and ")" from the string
+    var rgbValues = rgbString.substring(4, rgbString.length - 1);
+
+    // Split the string into an array of individual values
+    var rgbArray = rgbValues.split(",");
+
+    // Extract the values of r, g, and b
+    var r = parseInt(rgbArray[0].trim(), 10);
+    var g = parseInt(rgbArray[1].trim(), 10);
+    var b = parseInt(rgbArray[2].trim(), 10);
+
+    // Darken the color by 10%
+    r = r - 25.5;
+    g = g - 25.5;
+    b = b - 25.5;
+
+    return [r, g, b];
 }

@@ -142,6 +142,13 @@ body {
   
   .select-button.rainbow {
     background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    color: #fff;
+    color: hsl(0, 0%, 100%);
   }
   
+  .s {
+    color: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 90%);
+    color: hsl(0, 0%, 80%);
+    color: hsl(0, 0%, 40%);
+    
+  }
